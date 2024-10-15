@@ -1,0 +1,69 @@
+[Tue Oct 15 23:38:14 2024] Connection initialized
+[Tue Oct 15 23:39:11 2024] Connection initialized
+[Tue Oct 15 23:46:11 2024] Connection initialized
+[Tue Oct 15 23:46:13 2024] [Sent message to Node 1] Id: 3, Timestamp: 2, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:13 2024] [Sent message to Node 2] Id: 3, Timestamp: 3, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:13 2024] [Received message] Id: 2, Timestamp: 5, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:13 2024] [Received message] Id: 1, Timestamp: 4, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:13 2024] [Sent message to Node 1] Id: 3, Timestamp: 9, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:13 2024] [Sent message to Node 2] Id: 3, Timestamp: 10, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:20 2024] [Sent message to Node 1] Id: 3, Timestamp: 12, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:20 2024] [Sent message to Node 2] Id: 3, Timestamp: 13, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:20 2024] [Received message] Id: 1, Timestamp: 14, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:20 2024] [Received message] Id: 2, Timestamp: 15, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:20 2024] [Sent message to Node 1] Id: 3, Timestamp: 18, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:20 2024] [Sent message to Node 2] Id: 3, Timestamp: 19, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:22 2024] [Received message] Id: 2, Timestamp: 23, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:22 2024] [Sent message to Node 2] Id: 3, Timestamp: 25, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:22 2024] [Received message] Id: 2, Timestamp: 29, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:23 2024] [Received message] Id: 2, Timestamp: 32, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:23 2024] [Sent message to Node 2] Id: 3, Timestamp: 34, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:23 2024] [Received message] Id: 2, Timestamp: 38, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:24 2024] [Received message] Id: 2, Timestamp: 41, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:24 2024] [Sent message to Node 2] Id: 3, Timestamp: 43, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:24 2024] [Received message] Id: 2, Timestamp: 47, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:26 2024] [Received message] Id: 1, Timestamp: 50, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:26 2024] [Sent message to Node 1] Id: 3, Timestamp: 52, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:26 2024] [Received message] Id: 1, Timestamp: 56, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:27 2024] [Received message] Id: 1, Timestamp: 59, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:27 2024] [Sent message to Node 1] Id: 3, Timestamp: 61, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:27 2024] [Received message] Id: 1, Timestamp: 65, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:28 2024] [Received message] Id: 1, Timestamp: 68, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:28 2024] [Sent message to Node 1] Id: 3, Timestamp: 70, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:28 2024] [Received message] Id: 1, Timestamp: 74, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:29 2024] [Received message] Id: 1, Timestamp: 77, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:29 2024] [Sent message to Node 1] Id: 3, Timestamp: 79, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:29 2024] [Received message] Id: 1, Timestamp: 83, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:30 2024] [Received message] Id: 1, Timestamp: 86, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:30 2024] [Sent message to Node 1] Id: 3, Timestamp: 88, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:30 2024] [Received message] Id: 1, Timestamp: 92, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:31 2024] [Received message] Id: 1, Timestamp: 95, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:31 2024] [Sent message to Node 1] Id: 3, Timestamp: 97, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:31 2024] [Received message] Id: 1, Timestamp: 101, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:31 2024] [Received message] Id: 1, Timestamp: 104, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:31 2024] [Sent message to Node 1] Id: 3, Timestamp: 106, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:32 2024] [Received message] Id: 1, Timestamp: 110, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:34 2024] [Received message] Id: 1, Timestamp: 113, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:34 2024] [Sent message to Node 1] Id: 3, Timestamp: 115, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:34 2024] [Received message] Id: 1, Timestamp: 119, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:34 2024] [Received message] Id: 1, Timestamp: 122, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:34 2024] [Sent message to Node 1] Id: 3, Timestamp: 124, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:35 2024] [Received message] Id: 1, Timestamp: 128, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:35 2024] [Received message] Id: 1, Timestamp: 131, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:35 2024] [Sent message to Node 1] Id: 3, Timestamp: 133, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:35 2024] [Received message] Id: 1, Timestamp: 137, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:35 2024] [Received message] Id: 1, Timestamp: 140, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:35 2024] [Sent message to Node 1] Id: 3, Timestamp: 142, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:36 2024] [Received message] Id: 1, Timestamp: 146, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:36 2024] [Received message] Id: 1, Timestamp: 149, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:36 2024] [Sent message to Node 1] Id: 3, Timestamp: 151, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:36 2024] [Received message] Id: 1, Timestamp: 155, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:36 2024] [Received message] Id: 1, Timestamp: 158, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:36 2024] [Sent message to Node 1] Id: 3, Timestamp: 160, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:37 2024] [Received message] Id: 1, Timestamp: 164, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:37 2024] [Received message] Id: 1, Timestamp: 167, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:37 2024] [Sent message to Node 1] Id: 3, Timestamp: 169, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:37 2024] [Received message] Id: 1, Timestamp: 173, Type: RELEASE, Content: 
+[Tue Oct 15 23:46:37 2024] [Received message] Id: 1, Timestamp: 176, Type: REQUEST, Content: 
+[Tue Oct 15 23:46:37 2024] [Sent message to Node 1] Id: 3, Timestamp: 178, Type: REPLY, Content: OK
+[Tue Oct 15 23:46:38 2024] [Received message] Id: 1, Timestamp: 182, Type: RELEASE, Content: 
