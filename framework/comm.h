@@ -2,6 +2,7 @@
 #define COMM_H
 
 #include "config.h"
+#include "log.h"
 #include <string>
 #include <cstring>
 #include <queue>
@@ -15,20 +16,23 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+extern Config config;
+extern Logger logger;
+
 class Comm {
 private:
     int serverSocket;
+    int opt = 1;
     struct sockaddr_in servaddr;
     std::mutex socketMutex;                      
     std::condition_variable messageAvailable;
-    std::shared_ptr<Config> config;
     std::queue<std::string> messageQueue; 
     std::thread receiveThread;
 
 public:
-    Comm(int port, std::shared_ptr<Config> config) : config(config) {
+    Comm(int port) {
         if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-            std::cerr << "Creating socket failed\n";
+            // std::cerr << "Creating socket failed\n";
             throw std::runtime_error("Creating socket failed");
         }
 
@@ -38,14 +42,19 @@ public:
         servaddr.sin_addr.s_addr = INADDR_ANY;
         servaddr.sin_port = htons(port);
 
+        if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
+            std::cout << "Loi gan lai socket option!\n";
+            exit(1);
+        }
+
         if (bind(serverSocket, (struct sockaddr*)&servaddr, sizeof(servaddr)) < 0) {
             close(serverSocket);
-            std::cerr << "Bind failed\n";
+            // std::cerr << "Bind failed\n";
             throw std::runtime_error("Bind failed");
         }
 
         if (::listen(serverSocket, 5) < 0) {
-            std::cerr << "Listen failed\n";
+            // std::cerr << "Listen failed\n";
             throw std::runtime_error("Listen failed");
             close(serverSocket);
         }
@@ -61,19 +70,18 @@ public:
     }
 
     void send(int destId, const std::string &message) {
-        auto it = config->getNodeConfigs().find(destId);
+        auto it = config.getNodeConfigs().find(destId);
 
-        // tai sao sau lenh if() thi it = it->next ?????
-        // if (it == config->getNodeConfigs().end()) {
-        //     std::cout << "Destination ID " << destId << " not found";
-        //     return;
-        //     throw std::runtime_error("Destination ID " + std::to_string(destId) + " not found");
-        // }
+        if (it == config.getNodeConfigs().end()) {
+            std::cout << "Destination ID " << destId << " not found";
+            // return;
+            throw std::runtime_error("Destination ID " + std::to_string(destId) + " not found");
+        }
 
         int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (clientSocket < 0) {
-            std::cerr << "Failed to create client socket\n";
             close(clientSocket);
+            // std::cerr << "Failed to create client socket\n";
             throw std::runtime_error("Failed to create client socket");
         }
 
@@ -83,14 +91,14 @@ public:
         inet_pton(AF_INET, it->second.first.c_str(), &destIp.sin_addr);
 
         if (connect(clientSocket, (struct sockaddr*)&destIp, sizeof(destIp)) < 0) {
-            std::cerr << "Failed to connect to destination\n";
             close(clientSocket);
+            // std::cerr << "Failed to connect to destination\n";
             throw std::runtime_error("Failed to connect to destination");
         }
 
         if (::send(clientSocket, message.c_str(), message.size(), 0) < 0) {
-            std::cerr << "Failed to send message\n";
             close(clientSocket);
+            // std::cerr << "Failed to send message\n";
             throw std::runtime_error("Failed to send message");
         }
 
@@ -105,8 +113,8 @@ public:
                 char buffer[1024] = {0};
                 int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
                 if (bytesRead < 0) {
-                    std::cerr << "Failed to receive message\n";
                     close(clientSocket);
+                    // std::cerr << "Failed to receive message\n";
                     throw std::runtime_error("Failed to receive message");
                 }
                 else {
@@ -120,7 +128,7 @@ public:
                 close(clientSocket);
             }
             else {
-                std::cout << "Error accepting connection\n";
+                // std::cout << "Error accepting connection\n";
                 throw std::runtime_error("Error accepting connection");
             }
         }
@@ -139,22 +147,6 @@ public:
 
         return message;
     }
-
-    // void broadcast(const std::string &message, const std::vector<int>& destinationIds) {
-    //     for (int id : destinationIds) {
-    //         send(message, id);
-    //     }
-    // }
-
-    // void multicast(const std::string &message, const std::vector<int>& groupIds) {
-    //     for (int id : groupIds) {
-    //         send(message, id);
-    //     }
-    // }
-
-    // void setDelay(int messageId, int delayMilliseconds) {
-    //     messageDelays[messageId] = delayMilliseconds;
-    // }
 
 };
 

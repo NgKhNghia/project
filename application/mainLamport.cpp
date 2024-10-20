@@ -7,19 +7,23 @@
 
 using namespace std;
 
+Logger logger;
+Config config;
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Please enter ID\n";
         return 1;
     }
-    
-    std::shared_ptr<Config> config = std::make_shared<Config>();
+
+    logger.setMethods(true, true);
+    logger.init();
 
     int id = std::stoi(argv[1]);
-    std::string ip = config->getNodeIp(id);
-    int port = config->getNodePort(id);
-    std::shared_ptr<Comm> comm = std::make_shared<Comm>(port, config);
-    LamportNode lamportNode(id, ip, port, comm, config);
+    std::string ip = config.getNodeIp(id);
+    int port = config.getNodePort(id);
+    std::shared_ptr<Comm> comm = std::make_shared<Comm>(port);
+    LamportNode lamportNode(id, ip, port, comm);
     lamportNode.initialize();
 
     std::thread([&] {
@@ -36,9 +40,7 @@ int main(int argc, char* argv[]) {
                 lamportNode.requestCriticalSection();
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
                 if (lamportNode.canEnterCriticalSection()) {
-                    std::cout << "*********************\n";
-                    std::cout << "*********************\n";
-                    std::cout << "*********************\n";
+                    lamportNode.enterCriticalSection();
                     lamportNode.releaseCriticalSection();
                 }
             }

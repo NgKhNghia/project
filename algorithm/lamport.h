@@ -2,6 +2,7 @@
 #define LAMPORT_H
 
 #include "node.h"
+#include "log.h"
 #include <atomic>
 #include <mutex>
 #include <queue>
@@ -9,6 +10,8 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+
+extern Logger logger;
 
 enum MessageType { REQUEST, REPLY, RELEASE }; // Định nghĩa các loại tin nhắn
 
@@ -33,8 +36,8 @@ private:
     }
 
 public:
-    LamportNode(int id, const std::string& ip, int port, std::shared_ptr<Comm> comm, std::shared_ptr<Config> config)
-        : Node(id, ip, port, comm, config), lamportTimestamp(0), requestQueue(compareMessages) {}
+    LamportNode(int id, const std::string& ip, int port, std::shared_ptr<Comm> comm)
+        : Node(id, ip, port, comm), lamportTimestamp(0), requestQueue(compareMessages) {}
 
     int getTimestamp() const {
         return lamportTimestamp.load();
@@ -45,15 +48,16 @@ public:
         incrementTimestamp();
         int currentTimestamp = getTimestamp();
         
-        Message msg = {getId(), currentTimestamp, type, content};
-        std::string messageContent = formatMessage(msg);
+        Message msg = {id, currentTimestamp, type, content};
+        std::string messageContent = formatLamportMessage(msg);
         
-        sendMessage(receiverId, messageContent);
+        comm->send(receiverId, messageContent);
+        logger.log(messageContent);
     }
 
     // Xử lý tin nhắn Lamport nhận được, cập nhật đồng hồ và hàng đợi
     void receiveLamportMessage() {
-        std::string messageContent = receiveMessage();
+        std::string messageContent = comm->getMessage();
         Message msg = parseMessage(messageContent);
         int senderTimestamp = msg.timestamp;
         int senderId = msg.senderId;
@@ -90,15 +94,15 @@ public:
         // Thêm yêu cầu của nút vào hàng đợi
         {
             std::lock_guard<std::mutex> lock(queueMutex);
-            Message request = {getId(), currentTimestamp, REQUEST, "Requesting CS"};
+            Message request = {id, currentTimestamp, REQUEST, "Requesting CS"};
             requestQueue.push(request);
             resetReplies();
         }
 
         // Phát đi tin nhắn REQUEST đến tất cả các nút khác
-        for (const auto& node : getNodeConfigs()) {
-            if (node.first != getId()) {
-                sendLamportMessage(node.first, REQUEST);
+        for (const auto& node : config.getNodeConfigs()) {
+            if (node.first != id) {
+                sendLamportMessage(node.first, REQUEST, "Request CS");
             }
         }
     }
@@ -110,7 +114,11 @@ public:
         // Điều kiện để vào vùng găng
         return std::all_of(replyReceived.begin(), replyReceived.end(), 
                 [](const std::pair<int, bool>& entry) { return entry.second; }) &&
-                !requestQueue.empty() && requestQueue.top().senderId == getId();
+                !requestQueue.empty() && requestQueue.top().senderId == id;
+    }
+
+    void enterCriticalSection() {
+        logger.log("Node " + std::to_string(id) + " enter CS");
     }
 
     // Thoát khỏi vùng găng và thông báo cho các nút khác
@@ -118,15 +126,15 @@ public:
         {
             std::lock_guard<std::mutex> lock(queueMutex);
             // Xóa yêu cầu của nút khỏi hàng đợi
-            if (!requestQueue.empty() && requestQueue.top().senderId == getId()) {
+            if (!requestQueue.empty() && requestQueue.top().senderId == id) {
                 requestQueue.pop();
             }
         }
 
         // Phát đi tin nhắn RELEASE đến tất cả các nút khác
-        for (const auto& node : getNodeConfigs()) {
-            if (node.first != getId()) {
-                sendLamportMessage(node.first, RELEASE);
+        for (const auto& node : config.getNodeConfigs()) {
+            if (node.first != id) {
+                sendLamportMessage(node.first, RELEASE, "Release CS");
             }
         }
     }
@@ -162,7 +170,7 @@ private:
     }
 
     // Định dạng cấu trúc Message thành chuỗi tin nhắn
-    std::string formatMessage(const Message& msg) {
+    std::string formatLamportMessage(const Message& msg) {
         std::string typeStr = (msg.type == REQUEST) ? "REQUEST" : (msg.type == REPLY) ? "REPLY" : "RELEASE";
         return "Id: " + std::to_string(msg.senderId) + ", Timestamp: " + std::to_string(msg.timestamp) + 
                ", Type: " + typeStr + ", Content: " + msg.content;
